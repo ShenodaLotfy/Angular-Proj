@@ -1,0 +1,149 @@
+<!-- ngForm is created by angular to track all form controls, so we creater employeeForm variable to get all methods of ngForm -->
+<!-- ngSubmit - wheneven we press the submit button, ngSubmit event is fired and call the saveEmployee method-->
+<form #employeeForm='ngForm' (ngSubmit)='saveEmployee(employee)'>
+    <div class="card" *ngIf="employee">
+        <div class='card-header' style="background-color: gainsboro;">
+            <h6 class='card-title'>{{Title}}</h6>
+        </div>
+        <div class='card-body'>
+            <div class="form-group" [class.text-danger] = 'nameVariable.invalid && nameVariable.touched' 
+                                   >
+                <label for="name" >Name</label>
+                <!-- ngModel to make two way databinding -->
+                <input #nameVariable = 'ngModel' id='name' name = 'name' 
+                        [(ngModel)]="employee.Name" type='text' class='form-control ' required 
+                         [class.is-invalid] = 'nameVariable.invalid && nameVariable.touched' >
+                <span class='text-danger' *ngIf = 'nameVariable.invalid && nameVariable.touched'>Name is required</span>
+            </div>
+
+            
+            <div class="form-group" [class.text-danger] = 'emailVar.invalid' 
+                            >
+                <label for="email">Email</label>
+                <input #emailVar = 'ngModel' id='email' [required]='contactVariable.value === "email"' email name='email' [(ngModel)]="employee.email" type='text' 
+                    class='form-control'  [class.is-invalid] = 'emailVar.invalid '>
+
+                <span class='text-danger' *ngIf = 'emailVar.errors?.required '>Email is required</span>
+                <span class='text-danger' *ngIf = 'emailVar.errors?.email '>Email is Invalid</span>
+            </div>
+
+            <div class="form-group" [class.text-danger] = 'phoneVariable.invalid '  >
+                <label for="phone">Phone</label>
+                <input id='phone' name='phone' [required] = "contactVariable.value === 'Phone'" #phoneVariable = 'ngModel' [(ngModel)]="employee.phoneNumber" type='text' class='form-control'>
+                <span class='text-danger' *ngIf = 'phoneVariable.errors?.required'>Phone is required</span>
+            </div>
+            
+            <!-- contact preference radio buttons  -->
+            <div class='form-group ' [class.text-danger] = 'contactVariable.invalid && contactVariable.touched'>
+                <label> Contact Preference</label>
+                <div class='form-control'>
+                    <label class='radio-inline' style="padding: 2px;">
+                        <input type='radio' value="Phone" required #contactVariable = 'ngModel' [(ngModel)]='employee.contactPreference' name='preference'> Phone
+                    </label>
+                    <label class='radio-inline' style="padding: 2px;">
+                        <input type='radio' value="email" required #contactVariable = 'ngModel' [(ngModel)]='employee.contactPreference' name='preference'>Email
+                    </label>
+                </div>
+                <span class='text-danger' *ngIf = 'contactVariable.errors?.required && contactVariable.touched '>Contact Preference is required</span>
+            </div>
+
+            <!-- gender radio buttons  -->
+            <div class='form-group' [class.text-danger] = 'genderVariable.invalid && genderVariable.touched'>
+                <label> Gender</label>
+                <div class='form-control' >
+                    <label for= 'gender'class='radio-inline' >
+                        <input id="gender" name='gender' type='radio' value="Male" required #genderVariable = 'ngModel' [(ngModel)]='employee.Gender' > Male
+                    </label>
+                    <label class='radio-inline'>
+                        <input id="gender" name='gender' type='radio' value="Female" required #genderVariable = 'ngModel' [(ngModel)]='employee.Gender'>Female
+                    </label>
+                </div>
+                <span class='text-danger' *ngIf = 'genderVariable.errors?.required && genderVariable.touched '>Gender is required</span>
+            </div>
+
+            <div class='form-group '>
+                <label></label>
+                <div class='form-control'>
+                    <label class='checkbox-inline' style="padding: 2px;">
+                        <input type='checkbox' [(ngModel)]='employee.isActive' name='isactive'> Is Active
+                    </label>
+                </div>
+            </div>
+
+            <!-- select list  -->
+            <!--  we pass a parameter to appSelectValidator('-1'), the value that is not allowed to fire required messages -->
+            <div class="form-group" [class.text-danger] = 'selectlistVariable.invalid && selectlistVariable.touched' >
+                <label for="department">Department</label>
+                <select appSelectValidator = 'select' #selectlistVariable = 'ngModel' id="department" name='department' class="form-control" [(ngModel)]='employee.department'>
+                    <option value="select">Select Department</option>
+                    <option *ngFor="let depart of departments" [value]='depart.id'>
+                        {{depart.Name}}
+                    </option>
+                </select>
+                <span class="text-danger" *ngIf = 'selectlistVariable.errors?.default && selectlistVariable.touched '>Department is required</span>
+            </div>
+            
+            <!-- date of birth -->
+            <div class="form-group">
+                <label for="dob">Date Of Birth</label>
+                <input id='dob' [bsConfig]='bsConfig' bsDatepicker name='dob' [(ngModel)]="employee.dateOfBirth" type='text'
+                    class='form-control'>
+            </div>
+
+            <div class="form-group">
+                <label for="imagePath">Image Path</label>
+                <input id='imagePath' name='imagePath' #imagePath = 'ngModel' [(ngModel)]="employee.photoPath" type='text' class='form-control'>
+            </div>
+
+            <button [hidden]='employee.photoPath === "" || employee.photoPath === null' 
+                    class="btn btn-primary" style="display: block;" type="button" (click) = 'togglePreview()'>
+                {{previewImage? "Hide " + "Preview" : "Show " + "Preview"}}
+            </button>
+
+            <img [src] = 'employee.photoPath' style="margin-top: 5px;" width="200" height="200" *ngIf = 'previewImage' >
+
+            <!-- use ngModelGroup to apply styles to both controls inside it at a specific condition -->
+            <!-- <div ngModelGroup = 'passwordGroup' [class.text-danger] = 'confirmPasswordVar.invalid && confirmPasswordVar.touched 
+                                                                        && !confirmPasswordVar.required'> -->
+                <!--  password field -->
+                <!-- input event fired when typing at password field and there's a text in confirm password field -->
+                <!-- so we can trigger firing confirmPasswordValidator -->
+                <!-- <div class="form-group" [class.text-danger] = 'passwordVar.invalid && passwordVar.touched' 
+                                        [class.text-success] = 'passwordVar.valid'>
+                    <label for="name" >Password</label> -->
+                    <!-- ngModel to make two way databinding -->
+                    <!-- <input #passwordVar = 'ngModel' id='password' name = 'password' 
+                            [(ngModel)]="employee.password" type='text' class='form-control' required 
+                            [class.is-valid] = 'passwordVar.valid' [class.is-invalid] = 'passwordVar.invalid && passwordVar.touched'
+                            (input) = 'confirmPasswordVar.control.updateValueAndValidity()' >
+                    <span class='text-danger' *ngIf = 'passwordVar.invalid && passwordVar.touched'>Password is required</span>
+                </div> -->
+
+                <!--  confirm password field -->
+                <!-- <div class="form-group" [class.text-danger] = 'confirmPasswordVar.invalid && confirmPasswordVar.touched' 
+                                        [class.text-success] = 'confirmPasswordVar.valid'>
+                    <label for="name" >Confirm Password</label> -->
+                    <!-- ngModel to make two way databinding -->
+                    <!-- <input confirmPasswordValidator= 'password' #confirmPasswordVar = 'ngModel' id='confirmPassword' name = 'confirmPassword' 
+                            [(ngModel)]="employee.confirmPassword" type='text' class='form-control ' required 
+                            [class.is-valid] = 'confirmPasswordVar.valid' [class.is-invalid] = 'confirmPasswordVar.invalid && confirmPasswordVar.touched' >
+                    <span class='text-danger' *ngIf = 'confirmPasswordVar.invalid && confirmPasswordVar.touched'>Confirm Password is required</span>
+                    <span class='text-danger' *ngIf = 'confirmPasswordVar.errors?.notEqual && 
+                                confirmPasswordVar.touched && !confirmPasswordVar.errors?.required' >Password and Confirm Password do not match!</span>
+                </div>
+             </div>             -->
+
+        </div>
+        <div class='card-footer'>
+            <button type='submit' class='btn btn-primary' [disabled] = 'employeeForm.invalid'>Save</button>
+        </div>
+    
+       
+
+    </div>
+</form>
+<!-- show the data coming from the form-controls -->
+This is ngForm data to track all of form-controls - Angular generated form model  : {{employeeForm.value | json}}
+<br>
+<br>
+Our Employee model : {{employee | json }} 

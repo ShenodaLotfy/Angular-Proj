@@ -1,0 +1,18 @@
+{
+  "employees": [
+    {
+      "Name": "Shenoda Lotfy",
+      "email": "shenodalotfy1@gmail.com",
+      "phoneNumber": null,
+      "contactPreference": "email",
+      "Gender": "Male",
+      "isActive": false,
+      "department": "1",
+      "dateOfBirth": "2020-11-01T22:00:00.000Z",
+      "photoPath": "assets/images/Penguins.jpg",
+      "id": 2,
+      "password": null,
+      "confirmPassword": null
+    }
+  ]
+}

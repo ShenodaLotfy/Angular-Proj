@@ -1,0 +1,17 @@
+<div class="card" style="border:3px solid gray" [class.border-warning]='isViewed'>
+    <div class='card-header pointerCursor' (click)='isHidden = !isHidden' style="background-color: rgb(243, 152, 152);">
+        <h6 class='card-title'>{{cardTitle}}</h6>
+    </div>
+    <div class='card-body' [hidden]='isHidden'>
+        <ng-content select='.cardBody' >
+
+        </ng-content>
+        <div></div>
+
+        <div class='card-footer' [hidden]='isHidden'>
+            <ng-content select='.cardFooter' >
+
+            </ng-content>
+        </div>
+    </div>
+</div>

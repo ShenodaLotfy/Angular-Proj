@@ -1,0 +1,18 @@
+<h1>{{dataFromChild}}</h1>
+
+<div class="form-group">
+    <input type='text' placeholder="Search By Name " width="300px" class="form-control" [(ngModel)]="searchTerm">
+    <button (click)='ChangeEmployeeName(searchTerm)'>Change Employee Name</button>
+</div>
+
+<div class=" container">
+    <button class="btn btn-primary"> View Next Employee</button>
+
+    <div class="card" *ngFor='let employee of filteredEmployees '>
+        <app-displayemployee (notify)="handleNotify($event)" [searchTerm] = 'searchTerm' [employee]='employee'
+                (notifyDelete)= "deleteEmployee($event) "></app-displayemployee><!-- child component sending id of employee deleted in $event variable-->
+    </div>
+</div>
+<span *ngIf="errorMessage">
+    {{errorMessage}}
+</span>

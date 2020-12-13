@@ -1,0 +1,101 @@
+
+<div class="card "  *ngIf='employee'>
+    <div class='card-header' style="background-color: gainsboro;">
+        <h6 class='card-title'>{{employee.Name}}</h6>
+    </div>
+    
+    <div class='card-body' > 
+        <div class='row'> 
+            <div class="col-sm-4">
+                <img class="images" height="200px" width="200px" [src] = 'employee.photoPath'>
+            </div>
+            <div class="col-sm-8" >
+                <div class="row">
+                    <div class="col-sm-6">
+                        Id : 
+                    </div>
+                    <div class="col-sm-6">
+                        {{employee.id}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        Name : 
+                    </div>
+                    <div class="col-sm-6"> 
+                        {{employee.Name}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        Phone Number  : 
+                    </div>
+                    <div class="col-sm-6">
+                        {{employee.phoneNumber }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        Email : 
+                    </div>
+                    <div class="col-sm-6">
+                        {{employee.email}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        department : 
+                    </div>
+                    <!-- Angular Switch case -->
+                    <div [ngSwitch]= 'employee.department' class="col-sm-6">
+                        <span *ngSwitchCase = '1'>HR</span>   
+                        <span *ngSwitchCase = '2'>Payroll</span>   
+                        <span *ngSwitchCase = '3'>Admin</span>   
+                        <span *ngSwitchCase = '4'>Help Desk</span>   
+                        <span *ngSwitchDefault>N/A</span>  
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        contactPreference : 
+                    </div>
+                    <div class="col-sm-6">
+                        {{employee.contactPreference}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        dateOfBirth : 
+                    </div>
+                    <div class="col-sm-6">
+                        {{employee.dateOfBirth}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        isActive : 
+                    </div>
+                    <div class="col-sm-6">
+                        {{employee.isActive}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        Gender : 
+                    </div>
+                    <div class="col-sm-6">
+                        {{employee.Gender}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <button class="btn btn-primary pull-right" (click)= 'NextEmployee()'> Go to next employee </button>
+        <!-- queryparamsHandling to return to list view with the query string parameters without deleteing them -->
+        <!-- to add more query string parameters we used queryParams property -->
+        <!-- also we have to use merge to add the new ParamFromButton to query String, instead of using (preserve) -->
+        <button class="btn btn-primary" queryParamsHandling='merge' [queryParams] = '{"ParamFromButton" : "BackToListButton"}'
+                    [routerLink] = "['/list', {id : employee.Id}]"> Back to List </button>
+    </div>
+    </div>

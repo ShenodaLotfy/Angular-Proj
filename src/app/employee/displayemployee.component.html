@@ -1,0 +1,99 @@
+<app-accordion [isHidden]='true' [isViewed]='selectedEmployeeId === employee.id' [cardTitle]='employee.Name'>
+    <div class='cardBody'>
+        <div class='row'>
+            <div class="col-sm-4">
+                <img class="images" height="200px" width="200px" [src]='employee.photoPath'>
+            </div>
+            <div class="col-sm-8">
+                <div class="row">
+                    <div class="col-sm-6">
+                        Id :
+                    </div>
+                    <div class="col-sm-6">
+                        {{employee.id}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        Name :
+                    </div>
+                    <div class="col-sm-6">
+                        {{employee.Name}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        Phone Number :
+                    </div>
+                    <div class="col-sm-6">
+                        {{employee.phoneNumber }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        Email :
+                    </div>
+                    <div class="col-sm-6">
+                        {{employee.email}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        department :
+                    </div>
+                    <!-- Angular Switch case -->
+                    <div [ngSwitch]='employee.department' class="col-sm-6">
+                        <span *ngSwitchCase='1'>HR</span>
+                        <span *ngSwitchCase='2'>Payroll</span>
+                        <span *ngSwitchCase='3'>Admin</span>
+                        <span *ngSwitchCase='4'>Help Desk</span>
+                        <span *ngSwitchDefault>N/A</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        contactPreference :
+                    </div>
+                    <div class="col-sm-6">
+                        {{employee.contactPreference}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        dateOfBirth :
+                    </div>
+                    <div class="col-sm-6">
+                        {{employee.dateOfBirth}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        isActive :
+                    </div>
+                    <div class="col-sm-6">
+                        {{employee.isActive}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        Gender :
+                    </div>
+                    <div class="col-sm-6">
+                        {{employee.Gender}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='cardFooter'>
+        <button class="btn btn-primary" (click)="onViewClick(employee.id)">View</button>
+        <button class="btn btn-primary" (click)='EditEmployee(employee.id)'>Edit</button>
+        <span *ngIf="confirmDelete">
+            <span>Are you sure u want to delete?</span>
+            <button class="btn btn-danger" (click)='deleteEmployee()'>Yes</button>
+            <button class="btn btn-primary" (click)='confirmDelete=false'>No</button>
+        </span>
+        <button *ngIf="!confirmDelete" class="btn btn-danger" (click)='confirmDelete=true'>Delete</button>
+    </div>
+
+</app-accordion>
